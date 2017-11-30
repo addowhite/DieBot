@@ -1,14 +1,10 @@
+'use strict'
+
 // Imports
 let discord = require('discord.io')
-let logger  = require('winston')
 let auth    = require('./auth.json')
-
-
-
-// Logger
-logger.remove(logger.transports.Console)
-logger.add(logger.transports.Console, { colorize: true })
-logger.level = 'debug'
+var express = require('express')
+var app     = express()
 
 
 
@@ -69,11 +65,6 @@ let commands = [
 
 // Bot
 let bot = new discord.Client({ token: auth.token, autorun: true })
-bot.on('ready', (ev) => {
-  logger.info('Connected')
-  logger.info('Logged in as: ')
-  logger.info(bot.username + ' - (' + bot.id + ')')
-})
 bot.on('message', (user, userID, channelID, message, evt) => {
   for (let i = 0; i < commands.length; ++i) {
     let matches = commands[i].regex.exec(message)
@@ -81,4 +72,17 @@ bot.on('message', (user, userID, channelID, message, evt) => {
     commands[i].execute(userID, channelID, matches)
     break
   }
+})
+
+
+
+app.set('port', (process.env.PORT || 5000))
+app.use(express.static(__dirname + '/public'))
+
+app.get('/', function(request, response) {
+  response.send('DieBot is running happily.')
+})
+
+app.listen(app.get('port'), function() {
+  console.log("App is running at localhost:" + app.get('port'))
 })

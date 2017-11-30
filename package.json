@@ -5,8 +5,11 @@
   "main": "diebot.js",
   "author": "Addo White",
   "dependencies": {
-    "winston": "^2.4.0",
-    "discord.io": "^2.5.3"
+    "discord.io": "^2.5.3",
+    "express": "^4.16.2"
+  },
+  "engines": {
+    "node": "4.0.0"
   },
   "scripts": {
     "start": "node diebot.js"
