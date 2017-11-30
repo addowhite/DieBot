@@ -4,7 +4,10 @@
   "description": "A bot that rolls dice.",
   "main": "diebot.js",
   "author": "Addo White",
-  "dependencies": {},
+  "dependencies": {
+    "winston",
+    "discord.io"
+  },
   "scripts": {
     "start": "node diebot.js"
   }
