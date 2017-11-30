@@ -1,0 +1,8 @@
+{
+  "name": "die-bot",
+  "version": "0.0.1",
+  "description": "A bot that rolls dice.",
+  "main": "diebot.js",
+  "author": "Addo White",
+  "dependencies": {}
+}
