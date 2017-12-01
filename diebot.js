@@ -11,7 +11,9 @@ var app     = express()
 // Utils
 function formatNumber(num) {
   num = String(num)
-  let i, newStr = ''
+  let dotIndex = num.lastIndexOf('.')
+  let i, newStr = num.substr(dotIndex)
+  num = num.substring(0, dotIndex)
   for (i = num.length - 3; i > 0; i -= 3)
     newStr = ',' + num.substr(i, 3) + newStr
   return num.substring(0, i + 3) + newStr
@@ -24,7 +26,7 @@ let maxMessageLength = 100
 let rollDie = size => (Math.random() * Number(size) + 1) >>> 0
 let commands = [
   {
-    regex: new RegExp('^roll\\s*(\\d+)\\s*x\\s*(\\d+)\\s*(\\w+)$', 'gi'),
+    regex: new RegExp('^roll\\s*(\\d+)\\s*x\\s*(\\d+)\\s*([a-zA-Z]+)?$', 'gi'),
     execute: (userID, channelID, matches) => {
       let values = new Array(Number(matches[1])).fill(0).map(() => rollDie(matches[2]))
       let msg = `<@${userID}>\n` + values.join(', ')
