@@ -8,7 +8,19 @@ var app     = express()
 
 
 
+// Utils
+function formatNumber(num) {
+  num = String(num)
+  let i, newStr = ''
+  for (i = num.length - 3; i > 0; i -= 3)
+    newStr = ',' + num.substr(i, 3) + newStr
+  return num.substring(0, i + 3) + newStr
+}
+
+
+
 // Commands
+let maxMessageLength = 100
 let rollDie = size => (Math.random() * Number(size) + 1) >>> 0
 let commands = [
   {
@@ -16,24 +28,25 @@ let commands = [
     execute: (userID, channelID, matches) => {
       let values = new Array(Number(matches[1])).fill(0).map(() => rollDie(matches[2]))
       let msg = `<@${userID}>\n` + values.join(', ')
+      let groupResult = ''
       switch (matches[3]) {
         case 'min':
         case 'minimum':
-          msg += '\nMax = ' + Math.min.apply(null, values)
-          break;
+          groupResult = '\nMax = ' + formatNumber(values.reduce((min, val) => Math.min(min, val)))
+          break
         case 'max':
         case 'maximum':
-          msg += '\nMax = ' + Math.max.apply(null, values)
-          break;
+          groupResult = '\nMax = ' + formatNumber(values.reduce((max, val) => Math.max(max, val)))
+          break
         case 'total':
-          msg += '\nTotal = ' + values.reduce((runningTotal, currentValue) => runningTotal + currentValue)
+          groupResult = '\nTotal = ' + formatNumber(values.reduce((total, val) => total + val))
           break;
         case 'avg':
         case 'average':
-          msg += '\nAverage = ' + (values.reduce((runningTotal, currentValue) => runningTotal + currentValue) / values.length)
-          break;
+          groupResult = '\nAverage = ' + formatNumber(values.reduce((runningTotal, currentValue) => runningTotal + currentValue) / values.length)
+          break
       }
-      bot.sendMessage({ to: channelID, message: msg })
+      bot.sendMessage({ to: channelID, message: msg.substr(0, maxMessageLength - groupResult.length - 3) + '...' + groupResult })
     }
   },
   {
