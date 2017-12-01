@@ -69,7 +69,7 @@ let commands = [
               + 'Type \"roll 3 x 20 avg\" to roll three D20s and get the average value\n'
               + 'All group commands are: min, minimum, max, maximum, avg, average, total\n'
               + 'Disclaimer: I do not care about capitalisation or spaces. Aint nobody got time for that!\n'
-              + 'So this would work as well \"roll3x20total\".'
+              + 'So this would work as well \"ROLL3X20TOTAL\".'
     })
   }
 ]
