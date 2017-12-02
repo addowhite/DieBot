@@ -51,8 +51,8 @@ let commands = [
           groupResult = '\nAverage = ' + formatNumber(values.reduce((runningTotal, currentValue) => runningTotal + currentValue) / values.length)
           break
       }
-      if (msg.length > maxMessageLength - 3)
-        msg.substr(0, maxMessageLength - groupResult.length - 3) + '...'
+      if (msg.length > maxMessageLength - groupResult.length - 3)
+        msg = msg.substr(0, maxMessageLength - groupResult.length - 3) + '...'
       bot.sendMessage({ to: channelID, message: msg + groupResult })
     }
   },
