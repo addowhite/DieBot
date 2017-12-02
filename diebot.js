@@ -12,8 +12,11 @@ var app     = express()
 function formatNumber(num) {
   num = String(num)
   let dotIndex = num.lastIndexOf('.')
-  let i, newStr = num.substr(dotIndex)
-  num = num.substring(0, dotIndex)
+  let i, newStr = ''
+  if (dotIndex != -1) {
+    newStr = num.substr(dotIndex)
+    num = num.substring(0, dotIndex)
+  }
   for (i = num.length - 3; i > 0; i -= 3)
     newStr = ',' + num.substr(i, 3) + newStr
   return num.substring(0, i + 3) + newStr
